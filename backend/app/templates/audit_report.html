@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>GST Reconciliation Audit Report</title>
+    <style>
+        @page { size: A4 landscape; margin: 1.2cm; }
+        body { font-family: Helvetica, Arial, sans-serif; font-size: 8px; color: #1a1a1a; line-height: 1.3; }
+        h1 { text-align: center; color: #1e3a5f; font-size: 18px; margin: 0 0 4px 0; }
+        .subtitle { text-align: center; color: #666; font-size: 9px; margin: 0 0 12px 0; }
+        h2 { color: #1e3a5f; font-size: 11px; border-bottom: 1px solid #ccc; padding-bottom: 3px; margin: 14px 0 6px 0; }
+
+        table { width: 100%; border-collapse: collapse; font-size: 7px; }
+        th { background-color: #1e3a5f; color: #ffffff; padding: 4px 3px; text-align: left; font-size: 7px; }
+        td { padding: 3px; border-bottom: 1px solid #ddd; vertical-align: top; }
+
+        .stats td { border: none; text-align: center; padding: 6px; font-size: 8px; }
+        .stat-label { font-size: 7px; color: #666; text-transform: uppercase; }
+        .stat-value { font-size: 14px; font-weight: bold; color: #1e3a5f; }
+
+        .right { text-align: right; }
+        .mono { font-family: Courier; font-size: 6px; }
+        .sev-critical { color: #dc2626; font-weight: bold; }
+        .sev-high { color: #ea580c; font-weight: bold; }
+        .sev-medium { color: #d97706; }
+        .sev-low { color: #16a34a; }
+        .desc { font-size: 6px; color: #444; }
+
+        .info-box { background-color: #eef4ff; border-left: 3px solid #2563eb; padding: 8px; margin: 8px 0; font-size: 8px; }
+        .footer { text-align: center; margin-top: 16px; padding-top: 6px; border-top: 1px solid #ccc; color: #999; font-size: 7px; }
+    </style>
+</head>
+<body>
+    <h1>Credit Appraisal Audit Report</h1>
+    <p class="subtitle">Return Period: {{ return_period }} | Generated: {{ generated_at }}</p>
+
+    <table class="stats">
+        <tr>
+            <td>
+                <div class="stat-label">Total Mismatches</div>
+                <div class="stat-value">{{ total_mismatches }}</div>
+            </td>
+            <td>
+                <div class="stat-label">ITC at Risk</div>
+                <div class="stat-value">INR {{ total_itc_at_risk }}</div>
+            </td>
+            <td>
+                <div class="stat-label">Critical Issues</div>
+                <div class="stat-value" style="color: #dc2626;">{{ critical_count }}</div>
+            </td>
+            <td>
+                <div class="stat-label">High Risk Vendors</div>
+                <div class="stat-value" style="color: #ea580c;">{{ high_risk_vendors }}</div>
+            </td>
+        </tr>
+    </table>
+
+    <h2>Mismatch Breakdown</h2>
+    <table>
+        <tr>
+            <th>Mismatch Type</th>
+            <th>Count</th>
+            <th class="right">Total Amount at Risk</th>
+        </tr>
+        {% for item in breakdown %}
+        <tr>
+            <td>{{ item.type }}</td>
+            <td>{{ item.count }}</td>
+            <td class="right">INR {{ "%.2f"|format(item.amount) }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Detailed Mismatches</h2>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Type</th>
+            <th>Sev</th>
+            <th>Invoice</th>
+            <th>Supplier</th>
+            <th>Buyer</th>
+            <th class="right">Diff (INR)</th>
+            <th>Description</th>
+        </tr>
+        {% for m in mismatches %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ m.mismatch_type }}</td>
+            <td class="sev-{{ m.severity|lower }}">{{ m.severity }}</td>
+            <td class="mono">{{ m.invoice_number }}</td>
+            <td class="mono">{{ m.supplier_gstin }}</td>
+            <td class="mono">{{ m.buyer_gstin }}</td>
+            <td class="right">{{ "%.2f"|format(m.amount_difference) }}</td>
+            <td class="desc">{{ m.description[:60] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% if audit_trails %}
+    <h2>AI-Generated Audit Trails</h2>
+    {% for trail in audit_trails %}
+    <div class="info-box">
+        <b>Mismatch:</b> {{ trail.mismatch_id }}<br/>
+        <b>Explanation:</b> {{ trail.explanation[:300] }}<br/>
+        <b>Action:</b> {{ trail.recommendation }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% if risky_vendors %}
+    <h2>High-Risk Vendors</h2>
+    <table>
+        <tr>
+            <th>GSTIN</th>
+            <th>Name</th>
+            <th>Score</th>
+            <th>Level</th>
+            <th>Filing</th>
+            <th>Mismatches</th>
+            <th>Circular</th>
+        </tr>
+        {% for v in risky_vendors %}
+        <tr>
+            <td class="mono">{{ v.gstin }}</td>
+            <td>{{ v.legal_name }}</td>
+            <td>{{ v.risk_score }}</td>
+            <td class="sev-{{ v.risk_level|lower }}">{{ v.risk_level }}</td>
+            <td>{{ v.filing_rate }}%</td>
+            <td>{{ v.mismatch_count }}</td>
+            <td>{{ "Yes" if v.circular_trade_flag else "No" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <div class="footer">
+        Auto-generated by GST Recon Engine | Confidential
+    </div>
+</body>
+</html>

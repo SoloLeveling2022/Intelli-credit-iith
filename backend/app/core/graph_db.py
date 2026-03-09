@@ -1,0 +1,845 @@
+from neo4j import GraphDatabase, AsyncGraphDatabase
+from app.config import get_settings
+
+_driver = None
+
+
+def get_driver():
+    global _driver
+    if _driver is None:
+        settings = get_settings()
+        _driver = GraphDatabase.driver(
+            settings.neo4j_uri,
+            auth=(settings.neo4j_user, settings.neo4j_password),
+        )
+    return _driver
+
+
+def close_driver():
+    global _driver
+    if _driver:
+        _driver.close()
+        _driver = None
+
+
+def create_constraints():
+    driver = get_driver()
+    with driver.session() as session:
+        constraints = [
+            # Core entities
+            "CREATE CONSTRAINT company_id IF NOT EXISTS FOR (c:Company) REQUIRE c.company_id IS UNIQUE",
+            "CREATE CONSTRAINT promoter_id IF NOT EXISTS FOR (p:Promoter) REQUIRE p.promoter_id IS UNIQUE",
+            "CREATE CONSTRAINT document_id IF NOT EXISTS FOR (d:FinancialDocument) REQUIRE d.document_id IS UNIQUE",
+            "CREATE CONSTRAINT application_id IF NOT EXISTS FOR (a:LoanApplication) REQUIRE a.application_id IS UNIQUE",
+            "CREATE CONSTRAINT litigation_case_id IF NOT EXISTS FOR (l:Litigation) REQUIRE l.case_id IS UNIQUE",
+            "CREATE CONSTRAINT news_article_id IF NOT EXISTS FOR (n:NewsArticle) REQUIRE n.article_id IS UNIQUE",
+            # Indexes for search
+            "CREATE INDEX company_name IF NOT EXISTS FOR (c:Company) ON (c.legal_name)",
+            "CREATE INDEX company_pan IF NOT EXISTS FOR (c:Company) ON (c.pan)",
+            "CREATE INDEX promoter_name IF NOT EXISTS FOR (p:Promoter) ON (p.name)",
+            "CREATE INDEX document_type IF NOT EXISTS FOR (d:FinancialDocument) ON (d.document_type)",
+        ]
+        for cypher in constraints:
+            session.run(cypher)
+
+
+def ingest_taxpayer(tx, data: dict):
+    tx.run(
+        """
+        MERGE (t:Taxpayer {gstin: $gstin})
+        SET t.legal_name = $legal_name,
+            t.trade_name = $trade_name,
+            t.state_code = $state_code,
+            t.registration_type = $registration_type,
+            t.status = $status
+        """,
+        **data,
+    )
+
+
+def ingest_invoice_with_relations(tx, invoice: dict, return_type: str, return_period: str):
+    invoice_id = f"{invoice['supplier_gstin']}_{invoice['invoice_number']}_{return_period}"
+
+    tx.run(
+        """
+        MERGE (inv:Invoice {invoice_id: $invoice_id})
+        SET inv.invoice_number = $invoice_number,
+            inv.invoice_date = $invoice_date,
+            inv.invoice_type = $invoice_type,
+            inv.supplier_gstin = $supplier_gstin,
+            inv.buyer_gstin = $buyer_gstin,
+            inv.taxable_value = $taxable_value,
+            inv.cgst = $cgst,
+            inv.sgst = $sgst,
+            inv.igst = $igst,
+            inv.total_value = $total_value,
+            inv.gst_rate = $gst_rate,
+            inv.hsn_code = $hsn_code,
+            inv.place_of_supply = $place_of_supply,
+            inv.reverse_charge = $reverse_charge,
+            inv.return_period = $return_period,
+            inv.source = $return_type
+
+        MERGE (supplier:Taxpayer {gstin: $supplier_gstin})
+        MERGE (buyer:Taxpayer {gstin: $buyer_gstin})
+        MERGE (inv)-[:SUPPLIED_BY]->(supplier)
+        MERGE (inv)-[:SUPPLIED_TO]->(buyer)
+        MERGE (supplier)-[tw:TRADES_WITH]->(buyer)
+        ON CREATE SET tw.volume = $total_value, tw.frequency = 1
+        ON MATCH SET tw.volume = tw.volume + $total_value, tw.frequency = tw.frequency + 1
+        """,
+        invoice_id=invoice_id,
+        return_type=return_type,
+        return_period=return_period,
+        **invoice,
+    )
+
+    if return_type == "GSTR1":
+        tx.run(
+            """
+            MERGE (r:GSTR1Return {gstin: $gstin, return_period: $period})
+            WITH r
+            MATCH (inv:Invoice {invoice_id: $invoice_id})
+            MERGE (r)-[:CONTAINS_OUTWARD]->(inv)
+            """,
+            gstin=invoice["supplier_gstin"],
+            period=return_period,
+            invoice_id=invoice_id,
+        )
+    elif return_type == "GSTR2B":
+        tx.run(
+            """
+            MERGE (r:GSTR2BReturn {gstin: $gstin, return_period: $period})
+            WITH r
+            MATCH (inv:Invoice {invoice_id: $invoice_id})
+            MERGE (r)-[:CONTAINS_INWARD]->(inv)
+            """,
+            gstin=invoice["buyer_gstin"],
+            period=return_period,
+            invoice_id=invoice_id,
+        )
+
+
+def ingest_gstr3b(tx, data: dict, return_period: str):
+    tx.run(
+        """
+        MERGE (r:GSTR3BReturn {gstin: $gstin, return_period: $return_period})
+        SET r.itc_claimed = $itc_claimed,
+            r.itc_available = $itc_available,
+            r.output_tax = $output_tax,
+            r.tax_paid = $tax_paid
+
+        MERGE (t:Taxpayer {gstin: $gstin})
+        MERGE (t)-[:FILED]->(r)
+        """,
+        gstin=data["gstin"],
+        return_period=return_period,
+        itc_claimed=data.get("total_itc_claimed", data.get("itc_claimed", 0)),
+        itc_available=data.get("itc_available_as_per_gstr2b", data.get("itc_available", 0)),
+        output_tax=data.get("output_tax_liability", data.get("output_tax", 0)),
+        tax_paid=data.get("tax_paid", 0),
+    )
+
+
+def ingest_gstr1_return(tx, gstin: str, return_period: str, filing_date: str = None):
+    tx.run(
+        """
+        MERGE (r:GSTR1Return {gstin: $gstin, return_period: $return_period})
+        SET r.filing_date = $filing_date
+        MERGE (t:Taxpayer {gstin: $gstin})
+        MERGE (t)-[:FILED]->(r)
+        """,
+        gstin=gstin,
+        return_period=return_period,
+        filing_date=filing_date,
+    )
+
+
+def ingest_gstr2b_return(tx, gstin: str, return_period: str, generation_date: str = None):
+    tx.run(
+        """
+        MERGE (r:GSTR2BReturn {gstin: $gstin, return_period: $return_period})
+        SET r.generation_date = $generation_date
+        MERGE (t:Taxpayer {gstin: $gstin})
+        MERGE (t)-[:RECEIVED]->(r)
+        """,
+        gstin=gstin,
+        return_period=return_period,
+        generation_date=generation_date,
+    )
+
+
+def ingest_einvoice(tx, data: dict):
+    tx.run(
+        """
+        MERGE (e:EInvoice {irn: $irn})
+        SET e.ack_number = $ack_number,
+            e.ack_date = $ack_date,
+            e.irn_status = $irn_status,
+            e.qr_code = $qr_code
+
+        WITH e
+        MATCH (inv:Invoice {invoice_id: $invoice_id})
+        MERGE (e)-[:GENERATES]->(inv)
+        """,
+        irn=data["irn"],
+        ack_number=data.get("ack_number", ""),
+        ack_date=data.get("ack_date", ""),
+        irn_status=data.get("irn_status", "Active"),
+        qr_code=data.get("qr_code", ""),
+        invoice_id=data.get("invoice_id", ""),
+    )
+
+
+def ingest_eway_bill(tx, data: dict):
+    tx.run(
+        """
+        MERGE (e:EWayBill {ewb_number: $ewb_number})
+        SET e.transport_mode = $transport_mode,
+            e.vehicle_number = $vehicle_number,
+            e.valid_from = $valid_from,
+            e.valid_until = $valid_until,
+            e.distance_km = $distance_km
+
+        WITH e
+        MATCH (inv:Invoice {invoice_id: $invoice_id})
+        MERGE (e)-[:COVERS]->(inv)
+
+        WITH e
+        MATCH (t:Taxpayer {gstin: $transporter_gstin})
+        MERGE (e)-[:TRANSPORTED_BY]->(t)
+        """,
+        ewb_number=data["ewb_number"],
+        transport_mode=data.get("transport_mode", "Road"),
+        vehicle_number=data.get("vehicle_number", ""),
+        valid_from=data.get("valid_from", ""),
+        valid_until=data.get("valid_until", ""),
+        distance_km=data.get("distance_km", 0),
+        invoice_id=data.get("invoice_id", ""),
+        transporter_gstin=data.get("transporter_gstin", ""),
+    )
+
+
+def ingest_purchase_register_entry(tx, data: dict):
+    tx.run(
+        """
+        MERGE (p:PurchaseRegisterEntry {entry_id: $entry_id})
+        SET p.buyer_gstin = $buyer_gstin,
+            p.supplier_gstin = $supplier_gstin,
+            p.invoice_number = $invoice_number,
+            p.invoice_date = $invoice_date,
+            p.taxable_value = $taxable_value,
+            p.cgst = $cgst,
+            p.sgst = $sgst,
+            p.igst = $igst,
+            p.total_value = $total_value,
+            p.booked_date = $booked_date
+
+        WITH p
+        MATCH (inv:Invoice)
+        WHERE inv.invoice_number = $invoice_number
+          AND inv.supplier_gstin = $supplier_gstin
+        MERGE (inv)-[:RECORDED_IN]->(p)
+        """,
+        entry_id=data["entry_id"],
+        buyer_gstin=data.get("buyer_gstin", ""),
+        supplier_gstin=data.get("supplier_gstin", ""),
+        invoice_number=data.get("invoice_number", ""),
+        invoice_date=data.get("invoice_date", ""),
+        taxable_value=data.get("taxable_value", 0),
+        cgst=data.get("cgst", 0),
+        sgst=data.get("sgst", 0),
+        igst=data.get("igst", 0),
+        total_value=data.get("total_value", 0),
+        booked_date=data.get("booked_date", ""),
+    )
+
+
+def create_itc_claims(tx, return_period: str):
+    tx.run(
+        """
+        MATCH (r:GSTR3BReturn {return_period: $period})
+        MATCH (inv:Invoice {return_period: $period})
+        WHERE inv.buyer_gstin = r.gstin
+        MERGE (r)-[:CLAIMS_ITC]->(inv)
+        """,
+        period=return_period,
+    )
+
+
+def _node_label(labels: list[str], props: dict) -> str:
+    """Pick the best display label for a node."""
+    if "Taxpayer" in labels:
+        return props.get("trade_name") or props.get("legal_name") or props.get("gstin", "")
+    if "Invoice" in labels:
+        return props.get("invoice_number", props.get("invoice_id", ""))
+    if "GSTR1Return" in labels:
+        return f"GSTR1 {props.get('gstin', '')[:8]}..{props.get('return_period', '')}"
+    if "GSTR2BReturn" in labels:
+        return f"GSTR2B {props.get('gstin', '')[:8]}..{props.get('return_period', '')}"
+    if "GSTR3BReturn" in labels:
+        return f"GSTR3B {props.get('gstin', '')[:8]}..{props.get('return_period', '')}"
+    if "EInvoice" in labels:
+        return f"eInv {props.get('irn', '')[:12]}…"
+    if "EWayBill" in labels:
+        return f"EWB {props.get('ewb_number', '')}"
+    if "PurchaseRegisterEntry" in labels:
+        return f"PR {props.get('entry_id', '')}"
+    return str(props.get("id", ""))
+
+
+def _transform_node(raw: dict) -> dict:
+    """Transform a raw Neo4j node dict into flat frontend-friendly format."""
+    labels = raw.get("labels", [])
+    props = raw.get("properties", {})
+    node_type = labels[0] if labels else "Unknown"
+    return {
+        "id": raw["id"],
+        "type": node_type,
+        "label": _node_label(labels, props),
+        **props,
+    }
+
+
+def get_graph_data(limit: int = 200):
+    driver = get_driver()
+    with driver.session() as session:
+        # Collect nodes
+        node_result = session.run(
+            """
+            MATCH (n)
+            WITH n LIMIT $limit
+            RETURN elementId(n) AS id, labels(n) AS labels, properties(n) AS properties
+            """,
+            limit=limit,
+        )
+        node_ids = set()
+        nodes = []
+        for r in node_result:
+            raw = {"id": r["id"], "labels": r["labels"], "properties": r["properties"]}
+            node_ids.add(r["id"])
+            nodes.append(_transform_node(raw))
+
+        # Collect edges between those nodes
+        edge_result = session.run(
+            """
+            MATCH (n)-[r]->(m)
+            WHERE elementId(n) IN $ids AND elementId(m) IN $ids
+            RETURN elementId(n) AS source, elementId(m) AS target,
+                   type(r) AS type, properties(r) AS properties
+            """,
+            ids=list(node_ids),
+        )
+        links = []
+        for r in edge_result:
+            link = {
+                "source": r["source"],
+                "target": r["target"],
+                "type": r["type"],
+            }
+            # Include relationship properties (e.g. volume, frequency for TRADES_WITH)
+            if r["properties"]:
+                link.update(r["properties"])
+            links.append(link)
+
+        # Also add target nodes that might be outside the original limit
+        missing_ids = set()
+        for link in links:
+            if link["target"] not in node_ids:
+                missing_ids.add(link["target"])
+
+        if missing_ids:
+            extra = session.run(
+                """
+                UNWIND $ids AS nid
+                MATCH (n) WHERE elementId(n) = nid
+                RETURN elementId(n) AS id, labels(n) AS labels, properties(n) AS properties
+                """,
+                ids=list(missing_ids),
+            )
+            for r in extra:
+                raw = {"id": r["id"], "labels": r["labels"], "properties": r["properties"]}
+                nodes.append(_transform_node(raw))
+                node_ids.add(r["id"])
+
+        return {"nodes": nodes, "links": links}
+
+
+# ==================== CREDIT APPRAISAL DOMAIN FUNCTIONS ====================
+
+
+def ingest_company(tx, data: dict):
+    """Ingest company master data."""
+    tx.run(
+        """
+        MERGE (c:Company {cin: $cin})
+        SET c.name = $name,
+            c.industry = $industry,
+            c.incorporation_date = $incorporation_date,
+            c.registered_address = $registered_address,
+            c.status = $status,
+            c.paid_up_capital = $paid_up_capital
+        """,
+        cin=data["cin"],
+        name=data.get("name", ""),
+        industry=data.get("industry", ""),
+        incorporation_date=data.get("incorporation_date", ""),
+        registered_address=data.get("registered_address", ""),
+        status=data.get("status", "Active"),
+        paid_up_capital=data.get("paid_up_capital", 0),
+    )
+
+
+def ingest_promoter(tx, data: dict):
+    """Ingest promoter/director data."""
+    tx.run(
+        """
+        MERGE (p:Promoter {pan: $pan})
+        SET p.name = $name,
+            p.designation = $designation,
+            p.shareholding = $shareholding
+
+        WITH p
+        MATCH (c:Company {cin: $cin})
+        MERGE (p)-[:PROMOTES]->(c)
+        """,
+        pan=data["pan"],
+        name=data.get("name", ""),
+        designation=data.get("designation", "Director"),
+        shareholding=data.get("shareholding", 0),
+        cin=data["cin"],
+    )
+
+
+def ingest_financial_statement(tx, data: dict, year: str):
+    """Ingest financial statements (balance sheet, P&L, cashflow)."""
+    document_id = f"{data['cin']}_{data['document_type']}_{year}"
+    tx.run(
+        """
+        MERGE (fs:FinancialStatement {document_id: $document_id})
+        SET fs.cin = $cin,
+            fs.year = $year,
+            fs.document_type = $document_type,
+            fs.revenue = $revenue,
+            fs.profit = $profit,
+            fs.total_assets = $total_assets,
+            fs.total_liabilities = $total_liabilities,
+            fs.net_worth = $net_worth,
+            fs.current_assets = $current_assets,
+            fs.current_liabilities = $current_liabilities
+
+        WITH fs
+        MATCH (c:Company {cin: $cin})
+        MERGE (c)-[:HAS_FINANCIAL]->(fs)
+        """,
+        document_id=document_id,
+        cin=data["cin"],
+        year=year,
+        document_type=data.get("document_type", "BALANCE_SHEET"),
+        revenue=data.get("revenue", 0),
+        profit=data.get("profit", 0),
+        total_assets=data.get("total_assets", 0),
+        total_liabilities=data.get("total_liabilities", 0),
+        net_worth=data.get("net_worth", 0),
+        current_assets=data.get("current_assets", 0),
+        current_liabilities=data.get("current_liabilities", 0),
+    )
+
+
+def ingest_bank_statement(cin: str, data: dict, year: str):
+    """Ingest bank statement summary data."""
+    driver = get_driver()
+    with driver.session() as session:
+        session.execute_write(_ingest_bank_statement_tx, cin, data, year)
+
+
+def _ingest_bank_statement_tx(tx, cin: str, data: dict, year: str):
+    document_id = f"{cin}_BANK_{year}"
+    tx.run(
+        """
+        MERGE (bs:BankStatement {document_id: $document_id})
+        SET bs.cin = $cin,
+            bs.year = $year,
+            bs.bank_name = $bank_name,
+            bs.account_number = $account_number,
+            bs.opening_balance = $opening_balance,
+            bs.closing_balance = $closing_balance,
+            bs.total_credits = $total_credits,
+            bs.total_debits = $total_debits,
+            bs.average_monthly_balance = $average_monthly_balance,
+            bs.cheque_bounces = $cheque_bounces,
+            bs.od_limit = $od_limit
+
+        WITH bs
+        MATCH (c:Company {cin: $cin})
+        MERGE (c)-[:HAS_BANK_STATEMENT]->(bs)
+        """,
+        document_id=document_id,
+        cin=cin,
+        year=year,
+        bank_name=data.get("bank_name", ""),
+        account_number=data.get("account_number", ""),
+        opening_balance=data.get("opening_balance", 0),
+        closing_balance=data.get("closing_balance", 0),
+        total_credits=data.get("total_credits", 0),
+        total_debits=data.get("total_debits", 0),
+        average_monthly_balance=data.get("average_monthly_balance", 0),
+        cheque_bounces=data.get("cheque_bounces", 0),
+        od_limit=data.get("od_limit", 0),
+    )
+
+
+def ingest_itr(cin: str, data: dict, year: str):
+    """Ingest Income Tax Return data."""
+    driver = get_driver()
+    with driver.session() as session:
+        session.execute_write(_ingest_itr_tx, cin, data, year)
+
+
+def _ingest_itr_tx(tx, cin: str, data: dict, year: str):
+    document_id = f"{cin}_ITR_{year}"
+    tx.run(
+        """
+        MERGE (itr:ITR {document_id: $document_id})
+        SET itr.cin = $cin,
+            itr.year = $year,
+            itr.total_income = $total_income,
+            itr.total_deductions = $total_deductions,
+            itr.taxable_income = $taxable_income,
+            itr.tax_paid = $tax_paid,
+            itr.filing_date = $filing_date,
+            itr.status = $status
+
+        WITH itr
+        MATCH (c:Company {cin: $cin})
+        MERGE (c)-[:HAS_ITR]->(itr)
+        """,
+        document_id=document_id,
+        cin=cin,
+        year=year,
+        total_income=data.get("total_income", 0),
+        total_deductions=data.get("total_deductions", 0),
+        taxable_income=data.get("taxable_income", 0),
+        tax_paid=data.get("tax_paid", 0),
+        filing_date=data.get("filing_date", ""),
+        status=data.get("status", "Filed"),
+    )
+
+
+def ingest_litigation(tx, data: dict):
+    """Ingest litigation case data."""
+    case_id = data.get("case_number", f"{data['cin']}_case")
+    tx.run(
+        """
+        MERGE (lit:Litigation {case_id: $case_id})
+        SET lit.cin = $cin,
+            lit.case_number = $case_number,
+            lit.court = $court,
+            lit.case_type = $case_type,
+            lit.amount = $amount,
+            lit.status = $status,
+            lit.filing_date = $filing_date
+
+        WITH lit
+        MATCH (c:Company {cin: $cin})
+        MERGE (c)-[:HAS_LITIGATION]->(lit)
+        """,
+        case_id=case_id,
+        cin=data["cin"],
+        case_number=data.get("case_number", ""),
+        court=data.get("court", ""),
+        case_type=data.get("case_type", ""),
+        amount=data.get("amount", 0),
+        status=data.get("status", "Pending"),
+        filing_date=data.get("filing_date", ""),
+    )
+
+
+def ingest_news_article(tx, data: dict):
+    """Ingest news article data."""
+    article_id = f"{data['cin']}_{data.get('published_date', '')}_{data.get('source', '')}"
+    tx.run(
+        """
+        MERGE (news:NewsArticle {article_id: $article_id})
+        SET news.cin = $cin,
+            news.company_name = $company_name,
+            news.headline = $headline,
+            news.source = $source,
+            news.published_date = $published_date,
+            news.sentiment = $sentiment,
+            news.relevance_score = $relevance_score
+
+        WITH news
+        MATCH (c:Company {cin: $cin})
+        MERGE (c)-[:HAS_NEWS]->(news)
+        """,
+        article_id=article_id,
+        cin=data["cin"],
+        company_name=data.get("company_name", ""),
+        headline=data.get("headline", ""),
+        source=data.get("source", ""),
+        published_date=data.get("published_date", ""),
+        sentiment=data.get("sentiment", "neutral"),
+        relevance_score=data.get("relevance_score", 0),
+    )
+
+
+def find_shell_companies():
+    """
+    Detect potential shell companies via circular trading patterns.
+    Similar to find_circular_trades but for Company nodes.
+    """
+    driver = get_driver()
+    with driver.session() as session:
+        result = session.run(
+            """
+            MATCH path = (a:Company)-[:TRADES_WITH*2..5]->(a)
+            RETURN [n IN nodes(path) | n.cin] AS cycle,
+                   [n IN nodes(path) | n.name] AS names,
+                   length(path) AS cycle_length
+            ORDER BY cycle_length
+            LIMIT 20
+            """
+        )
+        return [
+            {
+                "cycle": r["cycle"],
+                "names": r["names"],
+                "cycle_length": r["cycle_length"],
+            }
+            for r in result
+        ]
+
+
+def get_company_network(cin: str):
+    """
+    Get the subgraph centered on a specific company.
+    Returns the company, connected promoters, financial docs, and related companies.
+    """
+    driver = get_driver()
+    with driver.session() as session:
+        node_ids = set()
+        nodes = []
+        links = []
+
+        # Get the central company + all directly connected nodes
+        result = session.run(
+            """
+            MATCH (center:Company {cin: $cin})
+            OPTIONAL MATCH (center)<-[r1]-(connected)
+            OPTIONAL MATCH (center)-[r2]->(connected2)
+            WITH center,
+                 collect(DISTINCT {node: connected, rel: r1, dir: 'in'}) AS inbound,
+                 collect(DISTINCT {node: connected2, rel: r2, dir: 'out'}) AS outbound
+            RETURN center, inbound, outbound
+            """,
+            cin=cin,
+        )
+
+        for r in result:
+            center = r["center"]
+            center_id = center.element_id
+            center_raw = {"id": center_id, "labels": list(center.labels), "properties": dict(center)}
+            if center_id not in node_ids:
+                node_ids.add(center_id)
+                node_data = _transform_node(center_raw)
+                node_data["isCenter"] = True
+                nodes.append(node_data)
+
+            for item in r["inbound"]:
+                n = item["node"]
+                rel = item["rel"]
+                if n is None or rel is None:
+                    continue
+                nid = n.element_id
+                if nid not in node_ids:
+                    node_ids.add(nid)
+                    raw = {"id": nid, "labels": list(n.labels), "properties": dict(n)}
+                    nodes.append(_transform_node(raw))
+                links.append({"source": nid, "target": center_id, "type": rel.type})
+
+            for item in r["outbound"]:
+                n = item["node"]
+                rel = item["rel"]
+                if n is None or rel is None:
+                    continue
+                nid = n.element_id
+                if nid not in node_ids:
+                    node_ids.add(nid)
+                    raw = {"id": nid, "labels": list(n.labels), "properties": dict(n)}
+                    nodes.append(_transform_node(raw))
+                links.append({"source": center_id, "target": nid, "type": rel.type})
+
+        # Get edges between the connected nodes
+        if len(node_ids) > 1:
+            edge_result = session.run(
+                """
+                MATCH (n)-[r]->(m)
+                WHERE elementId(n) IN $ids AND elementId(m) IN $ids
+                RETURN elementId(n) AS source, elementId(m) AS target, type(r) AS type
+                """,
+                ids=list(node_ids),
+            )
+            seen_edges = set((l["source"], l["target"], l["type"]) for l in links)
+            for er in edge_result:
+                key = (er["source"], er["target"], er["type"])
+                if key not in seen_edges:
+                    links.append({"source": er["source"], "target": er["target"], "type": er["type"]})
+                    seen_edges.add(key)
+
+        return {"nodes": nodes, "links": links}
+
+
+def search_graph(query: str):
+    driver = get_driver()
+    with driver.session() as session:
+        # Find matching nodes
+        node_result = session.run(
+            """
+            MATCH (n)
+            WHERE n.gstin CONTAINS $q
+               OR n.legal_name CONTAINS $q
+               OR n.invoice_number CONTAINS $q
+               OR n.trade_name CONTAINS $q
+            RETURN elementId(n) AS id, labels(n) AS labels, properties(n) AS properties
+            LIMIT 50
+            """,
+            q=query,
+        )
+        node_ids = set()
+        nodes = []
+        for r in node_result:
+            raw = {"id": r["id"], "labels": r["labels"], "properties": r["properties"]}
+            node_ids.add(r["id"])
+            nodes.append(_transform_node(raw))
+
+        if not node_ids:
+            return {"nodes": [], "links": []}
+
+        # Find relationships between matched nodes + their neighbors
+        edge_result = session.run(
+            """
+            MATCH (n)-[r]->(m)
+            WHERE elementId(n) IN $ids OR elementId(m) IN $ids
+            RETURN elementId(n) AS source, elementId(m) AS target,
+                   type(r) AS type,
+                   elementId(n) AS src_id, elementId(m) AS tgt_id,
+                   labels(n) AS src_labels, properties(n) AS src_props,
+                   labels(m) AS tgt_labels, properties(m) AS tgt_props
+            LIMIT 200
+            """,
+            ids=list(node_ids),
+        )
+        links = []
+        for r in edge_result:
+            links.append({"source": r["source"], "target": r["target"], "type": r["type"]})
+            # Add neighbor nodes if not already present
+            for prefix in ["src", "tgt"]:
+                nid = r[f"{prefix}_id"]
+                if nid not in node_ids:
+                    raw = {"id": nid, "labels": r[f"{prefix}_labels"], "properties": r[f"{prefix}_props"]}
+                    nodes.append(_transform_node(raw))
+                    node_ids.add(nid)
+
+        return {"nodes": nodes, "links": links}
+
+
+def find_circular_trades():
+    driver = get_driver()
+    with driver.session() as session:
+        result = session.run(
+            """
+            MATCH path = (a:Taxpayer)-[:TRADES_WITH*2..5]->(a)
+            RETURN [n IN nodes(path) | n.gstin] AS cycle,
+                   [n IN nodes(path) | n.legal_name] AS names,
+                   length(path) AS cycle_length
+            ORDER BY cycle_length
+            LIMIT 20
+            """
+        )
+        return [
+            {
+                "cycle": r["cycle"],
+                "names": r["names"],
+                "cycle_length": r["cycle_length"],
+            }
+            for r in result
+        ]
+
+
+def get_taxpayer_network(gstin: str):
+    """Get the subgraph centered on a specific taxpayer.
+    Returns the taxpayer, their connected invoices, and connected trading partners.
+    """
+    driver = get_driver()
+    with driver.session() as session:
+        node_ids = set()
+        nodes = []
+        links = []
+
+        # Get the central taxpayer + all directly connected nodes (depth 1-2)
+        result = session.run(
+            """
+            MATCH (center:Taxpayer {gstin: $gstin})
+            OPTIONAL MATCH (center)<-[r1]-(connected)
+            OPTIONAL MATCH (center)-[r2]->(connected2)
+            WITH center,
+                 collect(DISTINCT {node: connected, rel: r1, dir: 'in'}) AS inbound,
+                 collect(DISTINCT {node: connected2, rel: r2, dir: 'out'}) AS outbound
+            RETURN center, inbound, outbound
+            """,
+            gstin=gstin,
+        )
+
+        for r in result:
+            center = r["center"]
+            center_id = center.element_id
+            center_raw = {"id": center_id, "labels": list(center.labels), "properties": dict(center)}
+            if center_id not in node_ids:
+                node_ids.add(center_id)
+                node_data = _transform_node(center_raw)
+                node_data["isCenter"] = True
+                nodes.append(node_data)
+
+            for item in r["inbound"]:
+                n = item["node"]
+                rel = item["rel"]
+                if n is None or rel is None:
+                    continue
+                nid = n.element_id
+                if nid not in node_ids:
+                    node_ids.add(nid)
+                    raw = {"id": nid, "labels": list(n.labels), "properties": dict(n)}
+                    nodes.append(_transform_node(raw))
+                links.append({"source": nid, "target": center_id, "type": rel.type})
+
+            for item in r["outbound"]:
+                n = item["node"]
+                rel = item["rel"]
+                if n is None or rel is None:
+                    continue
+                nid = n.element_id
+                if nid not in node_ids:
+                    node_ids.add(nid)
+                    raw = {"id": nid, "labels": list(n.labels), "properties": dict(n)}
+                    nodes.append(_transform_node(raw))
+                links.append({"source": center_id, "target": nid, "type": rel.type})
+
+        # Get edges between the connected nodes (not just to center)
+        if len(node_ids) > 1:
+            edge_result = session.run(
+                """
+                MATCH (n)-[r]->(m)
+                WHERE elementId(n) IN $ids AND elementId(m) IN $ids
+                RETURN elementId(n) AS source, elementId(m) AS target, type(r) AS type
+                """,
+                ids=list(node_ids),
+            )
+            seen_edges = set((l["source"], l["target"], l["type"]) for l in links)
+            for er in edge_result:
+                key = (er["source"], er["target"], er["type"])
+                if key not in seen_edges:
+                    links.append({"source": er["source"], "target": er["target"], "type": er["type"]})
+                    seen_edges.add(key)
+
+        return {"nodes": nodes, "links": links}
