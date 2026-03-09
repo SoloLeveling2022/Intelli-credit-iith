@@ -3,8 +3,8 @@
 import { useState } from "react";
 import PageShell from "@/components/PageShell";
 import {
-  triggerBolnaCall,
-  fetchBolnaTranscript,
+  triggerVoiceAgentCall,
+  fetchVoiceAgentTranscript,
   extractTranscriptText,
   summarizeTranscriptWithGemini,
 } from "@/lib/api";
@@ -30,11 +30,11 @@ export default function PrimaryInsightsPage() {
   const [error, setError] = useState<string | null>(null);
   const [fetchingTranscript, setFetchingTranscript] = useState(false);
 
-  // Hardcoded data
-  const RECIPIENT_PHONE = "+918019227239";
-  const FROM_PHONE = "+13185269358";
-  const DEMO_CIN = "U72200KA2007PTC043114";
-  const DEMO_COMPANY_NAME = "Example Tech Private Limited";
+  // Environment variables
+  const RECIPIENT_PHONE = process.env.NEXT_PUBLIC_VOICE_AGENT_RECIPIENT_PHONE || "+918019227239";
+  const FROM_PHONE = process.env.NEXT_PUBLIC_VOICE_AGENT_FROM_PHONE || "+13185269358";
+  const DEMO_CIN = process.env.NEXT_PUBLIC_DEMO_CIN || "U72200KA2007PTC043114";
+  const DEMO_COMPANY_NAME = process.env.NEXT_PUBLIC_DEMO_COMPANY_NAME || "Example Tech Private Limited";
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -48,7 +48,7 @@ export default function PrimaryInsightsPage() {
     setCallSummary(null);
 
     try {
-      const response = await triggerBolnaCall({
+      const response = await triggerVoiceAgentCall({
         recipient_phone_number: RECIPIENT_PHONE,
         from_phone_number: FROM_PHONE,
         company_data: {
@@ -82,7 +82,7 @@ export default function PrimaryInsightsPage() {
     setError(null);
 
     try {
-      const transcriptData = await fetchBolnaTranscript(callExecutionId);
+      const transcriptData = await fetchVoiceAgentTranscript(callExecutionId);
 
       if (transcriptData.status !== "completed") {
         setError(

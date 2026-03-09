@@ -309,11 +309,12 @@ export const configureNotifications = (settings: Record<string, unknown>) =>
 export const testNotification = () =>
   fetchAPI("/api/notifications/test", { method: "POST" });
 
-// Bolna AI Agent
-const BOLNA_API_KEY = "bn-988a382a338a42afb0b1ec02068d0784";
-const BOLNA_AGENT_ID = "c882e4dc-42cd-4154-b803-026efc0ebfcb";
+// Voice Agent
+const VOICE_AGENT_API_KEY = process.env.NEXT_PUBLIC_VOICE_AGENT_API_KEY || "";
+const VOICE_AGENT_AGENT_ID = process.env.NEXT_PUBLIC_VOICE_AGENT_AGENT_ID || "";
+const VOICE_AGENT_API_URL = process.env.NEXT_PUBLIC_VOICE_AGENT_API_URL || "https://api.bolna.ai";
 
-export interface BolnaCallRequest {
+export interface VoiceAgentCallRequest {
   recipient_phone_number: string;
   from_phone_number: string;
   company_data: {
@@ -326,14 +327,14 @@ export interface BolnaCallRequest {
   };
 }
 
-export interface BolnaCallResponse {
+export interface VoiceAgentCallResponse {
   execution_id: string;
   status: string;
   call_id?: string;
   message?: string;
 }
 
-export interface BolnaTranscript {
+export interface VoiceAgentTranscript {
   execution_id: string;
   call_duration?: number;
   status: string;
@@ -344,27 +345,27 @@ export interface BolnaTranscript {
   }>;
 }
 
-// Helper to extract transcript text from Bolna conversation
-export const extractTranscriptText = (bolnaData: BolnaTranscript): string => {
-  if (!bolnaData.conversation || bolnaData.conversation.length === 0) {
+// Helper to extract transcript text from voice agent conversation
+export const extractTranscriptText = (voiceAgentData: VoiceAgentTranscript): string => {
+  if (!voiceAgentData.conversation || voiceAgentData.conversation.length === 0) {
     return "No conversation recorded.";
   }
-  return bolnaData.conversation
+  return voiceAgentData.conversation
     .map((msg) => `${msg.speaker}: ${msg.text}`)
     .join("\n");
 };
 
-export const triggerBolnaCall = async (
-  request: BolnaCallRequest
-): Promise<BolnaCallResponse> => {
-  const response = await fetch("https://api.bolna.ai/call", {
+export const triggerVoiceAgentCall = async (
+  request: VoiceAgentCallRequest
+): Promise<VoiceAgentCallResponse> => {
+  const response = await fetch(`${VOICE_AGENT_API_URL}/call`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${BOLNA_API_KEY}`,
+      Authorization: `Bearer ${VOICE_AGENT_API_KEY}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      agent_id: BOLNA_AGENT_ID,
+      agent_id: VOICE_AGENT_AGENT_ID,
       recipient_phone_number: request.recipient_phone_number,
       from_phone_number: request.from_phone_number,
       user_data: request.company_data,
@@ -373,28 +374,28 @@ export const triggerBolnaCall = async (
 
   if (!response.ok) {
     const error = await response.text();
-    throw new Error(`Bolna API error: ${response.status} - ${error}`);
+    throw new Error(`Voice Agent API error: ${response.status} - ${error}`);
   }
 
   return response.json();
 };
 
-export const fetchBolnaTranscript = async (
+export const fetchVoiceAgentTranscript = async (
   execution_id: string
-): Promise<BolnaTranscript> => {
+): Promise<VoiceAgentTranscript> => {
   const response = await fetch(
-    `https://api.bolna.ai/agent/${BOLNA_AGENT_ID}/execution/${execution_id}`,
+    `${VOICE_AGENT_API_URL}/agent/${VOICE_AGENT_AGENT_ID}/execution/${execution_id}`,
     {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${BOLNA_API_KEY}`,
+        Authorization: `Bearer ${VOICE_AGENT_API_KEY}`,
       },
     }
   );
 
   if (!response.ok) {
     const error = await response.text();
-    throw new Error(`Bolna transcript fetch error: ${response.status} - ${error}`);
+    throw new Error(`Voice Agent transcript fetch error: ${response.status} - ${error}`);
   }
 
   return response.json();

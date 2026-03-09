@@ -11,16 +11,16 @@ class Settings(BaseSettings):
     # Neo4j
     neo4j_uri: str = "bolt://localhost:7687"
     neo4j_user: str = "neo4j"
-    neo4j_password: str = "vivriti1st"
+    neo4j_password: str = ""
 
     # LLM Keys
     openai_api_key: str = ""
-    gemini_api_key: str = "AIzaSyAHW5mHHIIIilhWyNoSMdlp9g3ONVBaxxU"
+    gemini_api_key: str = ""
     ollama_url: str = "http://165.245.128.29:11434"
     llm_priority: str = "gemini,openai,ollama"  # Gemini first for credit appraisal
 
     # JWT Auth
-    jwt_secret: str = "vivriti2026"
+    jwt_secret: str = ""
     jwt_algorithm: str = "HS256"
     jwt_expire_minutes: int = 1440
 
