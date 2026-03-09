@@ -62,38 +62,6 @@ Intelli-Credit ingests financial documents, company filings, and external data i
 
 ---
 
-## Screenshots
-
-### Dashboard — Real-time credit portfolio overview with approval rates, risk distribution, and loan metrics
-
-![Dashboard](public/credit-dashboard.png)
-
-### Credit Appraisal — Application-wise credit decisions with Five C's scores and risk indicators
-
-![Appraisal](public/credit-appraisal.png)
-
-### Company Graph — Visualize company networks, promoter relationships, and shell company detection
-
-![Graph View](public/company-graph.png)
-
-### Credit Risk Assessment — Composite risk scoring with AI-powered explanations and scorecards
-
-![Risk Assessment](public/risk-assessment.png)
-
-### CAM Generator — Auto-generated Credit Appraisal Memos with LLM-powered insights
-
-![CAM](public/cam-generator.png)
-
-### Document Processing — Upload and parse bank statements, ITRs, financial statements (PDF support)
-
-![Documents](public/document-upload.png)
-
-### AI Assistant — Context-aware credit analyst chatbot powered by the Knowledge Graph
-
-![AI Assistant](public/ai-credit-assistant.png)
-
----
-
 ## Architecture
 
 ```
@@ -358,9 +326,6 @@ Production deployment uses Docker Compose + Caddy reverse proxy:
 # Build and deploy
 docker compose up -d
 
-# Caddy handles SSL termination automatically via Let's Encrypt
-# Frontend: intellicredit.com
-# API: api.intellicredit.com
 ```
 
 ---
