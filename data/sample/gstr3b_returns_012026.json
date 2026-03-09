@@ -1,0 +1,242 @@
+[
+  {
+    "gstin": "33BVJAR9192K7ZQ",
+    "return_period": "012026",
+    "total_itc_claimed": 140464.05,
+    "itc_available_as_per_gstr2b": 140464.05,
+    "output_tax_liability": 166430.19,
+    "tax_paid": 44756.4
+  },
+  {
+    "gstin": "35LDCPV9728K9ZV",
+    "return_period": "012026",
+    "total_itc_claimed": 228169.56,
+    "itc_available_as_per_gstr2b": 228169.56,
+    "output_tax_liability": 85104.08,
+    "tax_paid": 41267.28
+  },
+  {
+    "gstin": "20TZQLI5187R4ZG",
+    "return_period": "012026",
+    "total_itc_claimed": 179196.39,
+    "itc_available_as_per_gstr2b": 125187.88,
+    "output_tax_liability": 59097.28,
+    "tax_paid": 82948.24
+  },
+  {
+    "gstin": "15ZSEFC3072V8ZO",
+    "return_period": "012026",
+    "total_itc_claimed": 135157.14,
+    "itc_available_as_per_gstr2b": 135157.14,
+    "output_tax_liability": 114959.53,
+    "tax_paid": 30458.13
+  },
+  {
+    "gstin": "28DZULW6394M8ZZ",
+    "return_period": "012026",
+    "total_itc_claimed": 357503.94,
+    "itc_available_as_per_gstr2b": 357503.94,
+    "output_tax_liability": 183762.53,
+    "tax_paid": 50034.74
+  },
+  {
+    "gstin": "34OWUTW6560R9Z6",
+    "return_period": "012026",
+    "total_itc_claimed": 157996.41,
+    "itc_available_as_per_gstr2b": 157996.41,
+    "output_tax_liability": 12881.23,
+    "tax_paid": 115489.12
+  },
+  {
+    "gstin": "21QRVTJ3289C9ZN",
+    "return_period": "012026",
+    "total_itc_claimed": 211943.06,
+    "itc_available_as_per_gstr2b": 141435.78,
+    "output_tax_liability": 145538.35,
+    "tax_paid": 40255.83
+  },
+  {
+    "gstin": "16NUICP6435M0ZZ",
+    "return_period": "012026",
+    "total_itc_claimed": 314248.79,
+    "itc_available_as_per_gstr2b": 314248.79,
+    "output_tax_liability": 97246.38,
+    "tax_paid": 22836.52
+  },
+  {
+    "gstin": "37JVWAG2580U6ZP",
+    "return_period": "012026",
+    "total_itc_claimed": 232895.42,
+    "itc_available_as_per_gstr2b": 191572.55,
+    "output_tax_liability": 133197.88,
+    "tax_paid": 11019.34
+  },
+  {
+    "gstin": "07UTSHI8697G9ZE",
+    "return_period": "012026",
+    "total_itc_claimed": 316183.12,
+    "itc_available_as_per_gstr2b": 316183.12,
+    "output_tax_liability": 113439.52,
+    "tax_paid": 131447.67
+  },
+  {
+    "gstin": "02IXSCS8774R0ZK",
+    "return_period": "012026",
+    "total_itc_claimed": 184648.51,
+    "itc_available_as_per_gstr2b": 184648.51,
+    "output_tax_liability": 155325.97,
+    "tax_paid": 146142.05
+  },
+  {
+    "gstin": "22AICJU7763W7ZU",
+    "return_period": "012026",
+    "total_itc_claimed": 405511.06,
+    "itc_available_as_per_gstr2b": 405511.06,
+    "output_tax_liability": 28652.43,
+    "tax_paid": 147615.35
+  },
+  {
+    "gstin": "04YXGAQ6906Y5ZZ",
+    "return_period": "012026",
+    "total_itc_claimed": 351426.08,
+    "itc_available_as_per_gstr2b": 351426.08,
+    "output_tax_liability": 43042.54,
+    "tax_paid": 16613.69
+  },
+  {
+    "gstin": "03GOVTZ2454R2Z2",
+    "return_period": "012026",
+    "total_itc_claimed": 515762.67,
+    "itc_available_as_per_gstr2b": 376852.5,
+    "output_tax_liability": 11434.31,
+    "tax_paid": 42875.29
+  },
+  {
+    "gstin": "07UMWJT6001W2ZL",
+    "return_period": "012026",
+    "total_itc_claimed": 149333.18,
+    "itc_available_as_per_gstr2b": 149333.18,
+    "output_tax_liability": 110911.28,
+    "tax_paid": 61174.34
+  },
+  {
+    "gstin": "28OFXAB3344O1ZW",
+    "return_period": "012026",
+    "total_itc_claimed": 153967.13,
+    "itc_available_as_per_gstr2b": 153967.13,
+    "output_tax_liability": 92739.04,
+    "tax_paid": 45673.15
+  },
+  {
+    "gstin": "23CRMFO6205M0ZD",
+    "return_period": "012026",
+    "total_itc_claimed": 140616.61,
+    "itc_available_as_per_gstr2b": 140616.61,
+    "output_tax_liability": 77333.2,
+    "tax_paid": 113606.34
+  },
+  {
+    "gstin": "30BYGAB1205H2ZD",
+    "return_period": "012026",
+    "total_itc_claimed": 332715.41,
+    "itc_available_as_per_gstr2b": 332715.41,
+    "output_tax_liability": 184453.71,
+    "tax_paid": 123148.97
+  },
+  {
+    "gstin": "32GRPPK6962P6ZX",
+    "return_period": "012026",
+    "total_itc_claimed": 109578.99,
+    "itc_available_as_per_gstr2b": 109578.99,
+    "output_tax_liability": 139075.72,
+    "tax_paid": 120829.57
+  },
+  {
+    "gstin": "03VFOCT2698A3Z8",
+    "return_period": "012026",
+    "total_itc_claimed": 390938.86,
+    "itc_available_as_per_gstr2b": 390938.86,
+    "output_tax_liability": 190369.12,
+    "tax_paid": 46266.42
+  },
+  {
+    "gstin": "20MPRAE3777X7ZP",
+    "return_period": "012026",
+    "total_itc_claimed": 169694.78,
+    "itc_available_as_per_gstr2b": 169694.78,
+    "output_tax_liability": 109918.62,
+    "tax_paid": 87388.99
+  },
+  {
+    "gstin": "33ZAPCP7900T3ZA",
+    "return_period": "012026",
+    "total_itc_claimed": 484159.48,
+    "itc_available_as_per_gstr2b": 484159.48,
+    "output_tax_liability": 28186.89,
+    "tax_paid": 23464.68
+  },
+  {
+    "gstin": "36GHRJH0806Z0ZO",
+    "return_period": "012026",
+    "total_itc_claimed": 145059.45,
+    "itc_available_as_per_gstr2b": 145059.45,
+    "output_tax_liability": 28553.78,
+    "tax_paid": 139297.05
+  },
+  {
+    "gstin": "05OPICT6805K6ZO",
+    "return_period": "012026",
+    "total_itc_claimed": 191621.07,
+    "itc_available_as_per_gstr2b": 191621.07,
+    "output_tax_liability": 140569.6,
+    "tax_paid": 125368.39
+  },
+  {
+    "gstin": "26EIECF7520Y0Z1",
+    "return_period": "012026",
+    "total_itc_claimed": 105827.12,
+    "itc_available_as_per_gstr2b": 105827.12,
+    "output_tax_liability": 22027.99,
+    "tax_paid": 8814.13
+  },
+  {
+    "gstin": "25MSEJH9793V6ZL",
+    "return_period": "012026",
+    "total_itc_claimed": 292942.65,
+    "itc_available_as_per_gstr2b": 292942.65,
+    "output_tax_liability": 12369.61,
+    "tax_paid": 98105.98
+  },
+  {
+    "gstin": "16MCLJE5319D7Z2",
+    "return_period": "012026",
+    "total_itc_claimed": 355452.1,
+    "itc_available_as_per_gstr2b": 355452.1,
+    "output_tax_liability": 97877.07,
+    "tax_paid": 58225.08
+  },
+  {
+    "gstin": "19UOFFN1183W2ZL",
+    "return_period": "012026",
+    "total_itc_claimed": 462741.27,
+    "itc_available_as_per_gstr2b": 462741.27,
+    "output_tax_liability": 117634.28,
+    "tax_paid": 43044.89
+  },
+  {
+    "gstin": "06DRQPI3209A5ZJ",
+    "return_period": "012026",
+    "total_itc_claimed": 409302.07,
+    "itc_available_as_per_gstr2b": 409302.07,
+    "output_tax_liability": 166667.87,
+    "tax_paid": 28468.23
+  },
+  {
+    "gstin": "01FPXTZ6195P0ZZ",
+    "return_period": "012026",
+    "total_itc_claimed": 352278.0,
+    "itc_available_as_per_gstr2b": 352278.0,
+    "output_tax_liability": 98259.39,
+    "tax_paid": 125613.14
+  }
+]

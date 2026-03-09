@@ -1,0 +1,137 @@
+[
+  {
+    "cin": "U79547TN2022PTC100000",
+    "name": "TechCorp Solutions",
+    "industry": "Manufacturing",
+    "incorporation_date": "2022-09-15",
+    "registered_address": "607, Brigade Road, Bangalore",
+    "status": "Active",
+    "paid_up_capital": 20112701.29
+  },
+  {
+    "cin": "U43448GJ2015PTC100001",
+    "name": "Global Trading Ltd",
+    "industry": "Services",
+    "incorporation_date": "2023-08-24",
+    "registered_address": "213, MG Road, Chennai",
+    "status": "Active",
+    "paid_up_capital": 25995711.34
+  },
+  {
+    "cin": "U18138MH2022PTC100002",
+    "name": "Apex Manufacturing",
+    "industry": "Trading",
+    "incorporation_date": "2016-06-10",
+    "registered_address": "924, MG Road, Delhi",
+    "status": "Active",
+    "paid_up_capital": 10947472.55
+  },
+  {
+    "cin": "U20837KA2023PTC100003",
+    "name": "Prime Textiles",
+    "industry": "IT/Software",
+    "incorporation_date": "2023-09-09",
+    "registered_address": "778, Park Street, Delhi",
+    "status": "Active",
+    "paid_up_capital": 46521181.76
+  },
+  {
+    "cin": "U83271MH2018PTC100004",
+    "name": "Urban Realty Group",
+    "industry": "Textiles",
+    "incorporation_date": "2023-02-01",
+    "registered_address": "440, Park Street, Mumbai",
+    "status": "Active",
+    "paid_up_capital": 26114219.29
+  },
+  {
+    "cin": "U39646MH2018PTC100005",
+    "name": "Pharma Innovations",
+    "industry": "Pharmaceuticals",
+    "incorporation_date": "2015-01-24",
+    "registered_address": "732, Park Street, Mumbai",
+    "status": "Active",
+    "paid_up_capital": 2189107.09
+  },
+  {
+    "cin": "U38493GJ2020PTC100006",
+    "name": "AutoParts International",
+    "industry": "Construction",
+    "incorporation_date": "2013-05-09",
+    "registered_address": "128, Brigade Road, Chennai",
+    "status": "Active",
+    "paid_up_capital": 40128844.77
+  },
+  {
+    "cin": "U54336KA2022PTC100007",
+    "name": "FoodTech Industries",
+    "industry": "Real Estate",
+    "incorporation_date": "2010-05-03",
+    "registered_address": "896, Brigade Road, Bangalore",
+    "status": "Active",
+    "paid_up_capital": 26091796.75
+  },
+  {
+    "cin": "U30671DL2020PTC100008",
+    "name": "BuildRight Construction",
+    "industry": "Food Processing",
+    "incorporation_date": "2018-12-16",
+    "registered_address": "453, Park Street, Bangalore",
+    "status": "Active",
+    "paid_up_capital": 32523385.35
+  },
+  {
+    "cin": "U82055DL2015PTC100009",
+    "name": "DataSoft Technologies",
+    "industry": "Automobiles",
+    "incorporation_date": "2021-08-19",
+    "registered_address": "6, MG Road, Chennai",
+    "status": "Active",
+    "paid_up_capital": 34927495.33
+  },
+  {
+    "cin": "U67652GJ2020PTC100010",
+    "name": "Fashion Hub Pvt Ltd",
+    "industry": "Manufacturing",
+    "incorporation_date": "2016-06-06",
+    "registered_address": "600, Brigade Road, Chennai",
+    "status": "Active",
+    "paid_up_capital": 40489747.94
+  },
+  {
+    "cin": "U24860MH2015PTC100011",
+    "name": "AgriPro Exports",
+    "industry": "Services",
+    "incorporation_date": "2011-05-12",
+    "registered_address": "160, MG Road, Chennai",
+    "status": "Active",
+    "paid_up_capital": 45740767.85
+  },
+  {
+    "cin": "U16130GJ2015PTC100012",
+    "name": "Metro Infrastructure",
+    "industry": "Trading",
+    "incorporation_date": "2014-07-05",
+    "registered_address": "41, Park Street, Mumbai",
+    "status": "Active",
+    "paid_up_capital": 20015918.24
+  },
+  {
+    "cin": "U80951GJ2020PTC100013",
+    "name": "HealthCare Systems",
+    "industry": "IT/Software",
+    "incorporation_date": "2018-01-03",
+    "registered_address": "451, Park Street, Delhi",
+    "status": "Active",
+    "paid_up_capital": 31690552.58
+  },
+  {
+    "cin": "U71843GJ2021PTC100014",
+    "name": "Green Energy Solutions",
+    "industry": "Textiles",
+    "incorporation_date": "2019-04-14",
+    "registered_address": "246, Park Street, Bangalore",
+    "status": "Active",
+    "paid_up_capital": 8291620.55
+  }
+]

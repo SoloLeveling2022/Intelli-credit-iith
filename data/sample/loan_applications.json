@@ -1,0 +1,110 @@
+[
+  {
+    "application_id": "LOAN202400002",
+    "cin": "U43448GJ2015PTC100001",
+    "loan_purpose": "Working Capital",
+    "requested_amount": 32510740.81,
+    "approved_amount": 20387520.68,
+    "interest_rate": 10.13,
+    "tenure_months": 24,
+    "application_date": "2024-01-15",
+    "decision": "APPROVED",
+    "decision_date": "2024-02-20"
+  },
+  {
+    "application_id": "LOAN202400003",
+    "cin": "U18138MH2022PTC100002",
+    "loan_purpose": "Term Loan",
+    "requested_amount": 39004230.75,
+    "approved_amount": 26042803.01,
+    "interest_rate": 12.27,
+    "tenure_months": 12,
+    "application_date": "2024-01-15",
+    "decision": "REJECTED",
+    "decision_date": "2024-02-20"
+  },
+  {
+    "application_id": "LOAN202400004",
+    "cin": "U20837KA2023PTC100003",
+    "loan_purpose": "Term Loan",
+    "requested_amount": 46943101.06,
+    "approved_amount": 39182866.6,
+    "interest_rate": 10.9,
+    "tenure_months": 60,
+    "application_date": "2024-01-15",
+    "decision": "REJECTED",
+    "decision_date": "2024-02-20"
+  },
+  {
+    "application_id": "LOAN202400005",
+    "cin": "U83271MH2018PTC100004",
+    "loan_purpose": "Equipment Finance",
+    "requested_amount": 69700087.9,
+    "approved_amount": 62219487.79,
+    "interest_rate": 10.75,
+    "tenure_months": 36,
+    "application_date": "2024-01-15",
+    "decision": "APPROVED",
+    "decision_date": "2024-02-20"
+  },
+  {
+    "application_id": "LOAN202400006",
+    "cin": "U39646MH2018PTC100005",
+    "loan_purpose": "Working Capital",
+    "requested_amount": 45008359.26,
+    "approved_amount": 41745188.98,
+    "interest_rate": 10.48,
+    "tenure_months": 24,
+    "application_date": "2024-01-15",
+    "decision": "APPROVED",
+    "decision_date": "2024-02-20"
+  },
+  {
+    "application_id": "LOAN202400008",
+    "cin": "U54336KA2022PTC100007",
+    "loan_purpose": "Term Loan",
+    "requested_amount": 98905067.52,
+    "approved_amount": 78645558.11,
+    "interest_rate": 13.39,
+    "tenure_months": 36,
+    "application_date": "2024-01-15",
+    "decision": "APPROVED",
+    "decision_date": "2024-02-20"
+  },
+  {
+    "application_id": "LOAN202400009",
+    "cin": "U30671DL2020PTC100008",
+    "loan_purpose": "Trade Finance",
+    "requested_amount": 91142094.53,
+    "approved_amount": 54529171.25,
+    "interest_rate": 13.83,
+    "tenure_months": 24,
+    "application_date": "2024-01-15",
+    "decision": "CONDITIONAL",
+    "decision_date": "2024-02-20"
+  },
+  {
+    "application_id": "LOAN202400011",
+    "cin": "U67652GJ2020PTC100010",
+    "loan_purpose": "Term Loan",
+    "requested_amount": 93601514.63,
+    "approved_amount": 81645005.12,
+    "interest_rate": 10.15,
+    "tenure_months": 60,
+    "application_date": "2024-01-15",
+    "decision": "APPROVED",
+    "decision_date": "2024-02-20"
+  },
+  {
+    "application_id": "LOAN202400015",
+    "cin": "U71843GJ2021PTC100014",
+    "loan_purpose": "Working Capital",
+    "requested_amount": 34423497.8,
+    "approved_amount": 24309850.41,
+    "interest_rate": 13.04,
+    "tenure_months": 12,
+    "application_date": "2024-01-15",
+    "decision": "APPROVED",
+    "decision_date": "2024-02-20"
+  }
+]

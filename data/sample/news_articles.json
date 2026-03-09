@@ -1,0 +1,128 @@
+[
+  {
+    "cin": "U79547TN2022PTC100000",
+    "company_name": "TechCorp Solutions",
+    "headline": "TechCorp Solutions wins major contract from government",
+    "source": "Mint",
+    "published_date": "2024-01-02",
+    "sentiment": "negative",
+    "relevance_score": 0.59
+  },
+  {
+    "cin": "U79547TN2022PTC100000",
+    "company_name": "TechCorp Solutions",
+    "headline": "TechCorp Solutions expands operations to new markets",
+    "source": "Business Standard",
+    "published_date": "2024-03-03",
+    "sentiment": "neutral",
+    "relevance_score": 0.61
+  },
+  {
+    "cin": "U79547TN2022PTC100000",
+    "company_name": "TechCorp Solutions",
+    "headline": "TechCorp Solutions faces worker union protests",
+    "source": "Business Standard",
+    "published_date": "2024-01-26",
+    "sentiment": "neutral",
+    "relevance_score": 0.93
+  },
+  {
+    "cin": "U18138MH2022PTC100002",
+    "company_name": "Apex Manufacturing",
+    "headline": "Industry experts praise Apex Manufacturing's innovation",
+    "source": "Economic Times",
+    "published_date": "2024-01-24",
+    "sentiment": "neutral",
+    "relevance_score": 0.51
+  },
+  {
+    "cin": "U18138MH2022PTC100002",
+    "company_name": "Apex Manufacturing",
+    "headline": "Apex Manufacturing wins major contract from government",
+    "source": "Financial Express",
+    "published_date": "2024-01-11",
+    "sentiment": "negative",
+    "relevance_score": 0.55
+  },
+  {
+    "cin": "U38493GJ2020PTC100006",
+    "company_name": "AutoParts International",
+    "headline": "AutoParts International appoints new leadership team",
+    "source": "Financial Express",
+    "published_date": "2024-02-01",
+    "sentiment": "positive",
+    "relevance_score": 0.68
+  },
+  {
+    "cin": "U38493GJ2020PTC100006",
+    "company_name": "AutoParts International",
+    "headline": "AutoParts International expands operations to new markets",
+    "source": "Financial Express",
+    "published_date": "2024-03-23",
+    "sentiment": "positive",
+    "relevance_score": 0.85
+  },
+  {
+    "cin": "U38493GJ2020PTC100006",
+    "company_name": "AutoParts International",
+    "headline": "AutoParts International reports strong quarterly results",
+    "source": "Business Standard",
+    "published_date": "2024-03-06",
+    "sentiment": "positive",
+    "relevance_score": 0.88
+  },
+  {
+    "cin": "U82055DL2015PTC100009",
+    "company_name": "DataSoft Technologies",
+    "headline": "DataSoft Technologies faces worker union protests",
+    "source": "Business Standard",
+    "published_date": "2024-02-08",
+    "sentiment": "positive",
+    "relevance_score": 0.52
+  },
+  {
+    "cin": "U82055DL2015PTC100009",
+    "company_name": "DataSoft Technologies",
+    "headline": "DataSoft Technologies reports strong quarterly results",
+    "source": "Financial Express",
+    "published_date": "2024-03-16",
+    "sentiment": "negative",
+    "relevance_score": 0.81
+  },
+  {
+    "cin": "U82055DL2015PTC100009",
+    "company_name": "DataSoft Technologies",
+    "headline": "DataSoft Technologies launches new product line",
+    "source": "Business Standard",
+    "published_date": "2024-03-07",
+    "sentiment": "positive",
+    "relevance_score": 0.99
+  },
+  {
+    "cin": "U24860MH2015PTC100011",
+    "company_name": "AgriPro Exports",
+    "headline": "AgriPro Exports launches new product line",
+    "source": "Financial Express",
+    "published_date": "2024-02-11",
+    "sentiment": "negative",
+    "relevance_score": 0.56
+  },
+  {
+    "cin": "U24860MH2015PTC100011",
+    "company_name": "AgriPro Exports",
+    "headline": "AgriPro Exports reports strong quarterly results",
+    "source": "Economic Times",
+    "published_date": "2024-01-20",
+    "sentiment": "neutral",
+    "relevance_score": 0.6
+  },
+  {
+    "cin": "U80951GJ2020PTC100013",
+    "company_name": "HealthCare Systems",
+    "headline": "HealthCare Systems launches new product line",
+    "source": "Economic Times",
+    "published_date": "2024-03-28",
+    "sentiment": "neutral",
+    "relevance_score": 0.97
+  }
+]

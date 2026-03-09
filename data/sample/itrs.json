@@ -1,0 +1,452 @@
+[
+  {
+    "cin": "U79547TN2022PTC100000",
+    "year": "FY2022",
+    "total_income": 487784881.15,
+    "total_deductions": 321839459.92,
+    "taxable_income": 79061747.19,
+    "tax_paid": 28530514.56,
+    "filing_date": "4022-09-23",
+    "status": "Filed"
+  },
+  {
+    "cin": "U79547TN2022PTC100000",
+    "year": "FY2023",
+    "total_income": 119659993.28,
+    "total_deductions": 78087538.66,
+    "taxable_income": 21188371.78,
+    "tax_paid": 8305300.35,
+    "filing_date": "4023-09-19",
+    "status": "Filed"
+  },
+  {
+    "cin": "U79547TN2022PTC100000",
+    "year": "FY2024",
+    "total_income": 198889091.8,
+    "total_deductions": 140497579.72,
+    "taxable_income": 48371204.78,
+    "tax_paid": 10795626.7,
+    "filing_date": "4024-09-20",
+    "status": "Filed"
+  },
+  {
+    "cin": "U43448GJ2015PTC100001",
+    "year": "FY2022",
+    "total_income": 373929131.17,
+    "total_deductions": 248499902.63,
+    "taxable_income": 97432170.48,
+    "tax_paid": 23546435.81,
+    "filing_date": "4022-09-20",
+    "status": "Filed"
+  },
+  {
+    "cin": "U43448GJ2015PTC100001",
+    "year": "FY2023",
+    "total_income": 215351682.12,
+    "total_deductions": 132937877.38,
+    "taxable_income": 57150672.53,
+    "tax_paid": 13845526.56,
+    "filing_date": "4023-09-22",
+    "status": "Filed"
+  },
+  {
+    "cin": "U43448GJ2015PTC100001",
+    "year": "FY2024",
+    "total_income": 66099558.82,
+    "total_deductions": 49889980.45,
+    "taxable_income": 16471955.69,
+    "tax_paid": 3943027.59,
+    "filing_date": "4024-09-21",
+    "status": "Filed"
+  },
+  {
+    "cin": "U18138MH2022PTC100002",
+    "year": "FY2022",
+    "total_income": 102550705.79,
+    "total_deductions": 81868441.15,
+    "taxable_income": 15616238.32,
+    "tax_paid": 5521808.7,
+    "filing_date": "4022-09-15",
+    "status": "Filed"
+  },
+  {
+    "cin": "U18138MH2022PTC100002",
+    "year": "FY2023",
+    "total_income": 490552215.08,
+    "total_deductions": 353042228.11,
+    "taxable_income": 88087716.48,
+    "tax_paid": 20896110.4,
+    "filing_date": "4023-09-26",
+    "status": "Filed"
+  },
+  {
+    "cin": "U18138MH2022PTC100002",
+    "year": "FY2024",
+    "total_income": 437784535.92,
+    "total_deductions": 312531272.09,
+    "taxable_income": 76027799.54,
+    "tax_paid": 26923845.97,
+    "filing_date": "4024-09-28",
+    "status": "Filed"
+  },
+  {
+    "cin": "U20837KA2023PTC100003",
+    "year": "FY2022",
+    "total_income": 81815621.31,
+    "total_deductions": 49428048.34,
+    "taxable_income": 14228519.27,
+    "tax_paid": 5150736.56,
+    "filing_date": "4022-09-18",
+    "status": "Filed"
+  },
+  {
+    "cin": "U20837KA2023PTC100003",
+    "year": "FY2023",
+    "total_income": 214119203.7,
+    "total_deductions": 153166288.3,
+    "taxable_income": 48202206.88,
+    "tax_paid": 10909369.35,
+    "filing_date": "4023-09-20",
+    "status": "Filed"
+  },
+  {
+    "cin": "U20837KA2023PTC100003",
+    "year": "FY2024",
+    "total_income": 470150668.05,
+    "total_deductions": 364501538.21,
+    "taxable_income": 71152050.29,
+    "tax_paid": 22385983.31,
+    "filing_date": "4024-09-30",
+    "status": "Filed"
+  },
+  {
+    "cin": "U83271MH2018PTC100004",
+    "year": "FY2022",
+    "total_income": 351806140.12,
+    "total_deductions": 266692684.03,
+    "taxable_income": 83791604.24,
+    "tax_paid": 20034492.03,
+    "filing_date": "4022-09-28",
+    "status": "Filed"
+  },
+  {
+    "cin": "U83271MH2018PTC100004",
+    "year": "FY2023",
+    "total_income": 47516973.44,
+    "total_deductions": 37886140.97,
+    "taxable_income": 14003185.3,
+    "tax_paid": 2134282.18,
+    "filing_date": "4023-09-15",
+    "status": "Filed"
+  },
+  {
+    "cin": "U83271MH2018PTC100004",
+    "year": "FY2024",
+    "total_income": 51161390.68,
+    "total_deductions": 32912485.57,
+    "taxable_income": 11879375.0,
+    "tax_paid": 2660799.43,
+    "filing_date": "4024-09-18",
+    "status": "Filed"
+  },
+  {
+    "cin": "U39646MH2018PTC100005",
+    "year": "FY2022",
+    "total_income": 333837093.26,
+    "total_deductions": 219839566.63,
+    "taxable_income": 76351797.5,
+    "tax_paid": 16183497.78,
+    "filing_date": "4022-09-25",
+    "status": "Filed"
+  },
+  {
+    "cin": "U39646MH2018PTC100005",
+    "year": "FY2023",
+    "total_income": 80422358.37,
+    "total_deductions": 53065304.77,
+    "taxable_income": 23274810.39,
+    "tax_paid": 4644221.91,
+    "filing_date": "4023-09-28",
+    "status": "Filed"
+  },
+  {
+    "cin": "U39646MH2018PTC100005",
+    "year": "FY2024",
+    "total_income": 453354782.24,
+    "total_deductions": 303293265.29,
+    "taxable_income": 118185417.17,
+    "tax_paid": 22491685.02,
+    "filing_date": "4024-09-29",
+    "status": "Filed"
+  },
+  {
+    "cin": "U38493GJ2020PTC100006",
+    "year": "FY2022",
+    "total_income": 141747309.63,
+    "total_deductions": 98251015.89,
+    "taxable_income": 38628552.78,
+    "tax_paid": 11052725.89,
+    "filing_date": "4022-09-21",
+    "status": "Filed"
+  },
+  {
+    "cin": "U38493GJ2020PTC100006",
+    "year": "FY2023",
+    "total_income": 383725726.86,
+    "total_deductions": 299396795.31,
+    "taxable_income": 97260180.65,
+    "tax_paid": 18607598.31,
+    "filing_date": "4023-09-16",
+    "status": "Filed"
+  },
+  {
+    "cin": "U38493GJ2020PTC100006",
+    "year": "FY2024",
+    "total_income": 404046600.45,
+    "total_deductions": 244036037.2,
+    "taxable_income": 96021815.07,
+    "tax_paid": 29335231.98,
+    "filing_date": "4024-09-18",
+    "status": "Filed"
+  },
+  {
+    "cin": "U54336KA2022PTC100007",
+    "year": "FY2022",
+    "total_income": 30854105.87,
+    "total_deductions": 21140617.46,
+    "taxable_income": 6881726.28,
+    "tax_paid": 1788287.85,
+    "filing_date": "4022-09-24",
+    "status": "Filed"
+  },
+  {
+    "cin": "U54336KA2022PTC100007",
+    "year": "FY2023",
+    "total_income": 446145770.98,
+    "total_deductions": 302160115.7,
+    "taxable_income": 79097193.04,
+    "tax_paid": 21930863.47,
+    "filing_date": "4023-09-21",
+    "status": "Filed"
+  },
+  {
+    "cin": "U54336KA2022PTC100007",
+    "year": "FY2024",
+    "total_income": 394583032.55,
+    "total_deductions": 246150920.69,
+    "taxable_income": 85258782.42,
+    "tax_paid": 18459159.27,
+    "filing_date": "4024-09-21",
+    "status": "Filed"
+  },
+  {
+    "cin": "U30671DL2020PTC100008",
+    "year": "FY2022",
+    "total_income": 227721963.41,
+    "total_deductions": 175071099.86,
+    "taxable_income": 49103199.53,
+    "tax_paid": 14327067.3,
+    "filing_date": "4022-09-22",
+    "status": "Filed"
+  },
+  {
+    "cin": "U30671DL2020PTC100008",
+    "year": "FY2023",
+    "total_income": 104103647.96,
+    "total_deductions": 81001273.73,
+    "taxable_income": 19479404.24,
+    "tax_paid": 8014759.93,
+    "filing_date": "4023-09-17",
+    "status": "Filed"
+  },
+  {
+    "cin": "U30671DL2020PTC100008",
+    "year": "FY2024",
+    "total_income": 126708480.4,
+    "total_deductions": 81083345.27,
+    "taxable_income": 30810275.54,
+    "tax_paid": 6050509.52,
+    "filing_date": "4024-09-22",
+    "status": "Filed"
+  },
+  {
+    "cin": "U82055DL2015PTC100009",
+    "year": "FY2022",
+    "total_income": 118508602.32,
+    "total_deductions": 93833877.08,
+    "taxable_income": 22619173.3,
+    "tax_paid": 5948692.0,
+    "filing_date": "4022-09-19",
+    "status": "Filed"
+  },
+  {
+    "cin": "U82055DL2015PTC100009",
+    "year": "FY2023",
+    "total_income": 437536278.66,
+    "total_deductions": 349890061.94,
+    "taxable_income": 121570742.8,
+    "tax_paid": 22519038.18,
+    "filing_date": "4023-09-27",
+    "status": "Filed"
+  },
+  {
+    "cin": "U82055DL2015PTC100009",
+    "year": "FY2024",
+    "total_income": 477206442.61,
+    "total_deductions": 291817367.22,
+    "taxable_income": 102099193.17,
+    "tax_paid": 26698474.3,
+    "filing_date": "4024-09-16",
+    "status": "Filed"
+  },
+  {
+    "cin": "U67652GJ2020PTC100010",
+    "year": "FY2022",
+    "total_income": 267933954.83,
+    "total_deductions": 192112381.2,
+    "taxable_income": 40659388.47,
+    "tax_paid": 17127884.57,
+    "filing_date": "4022-09-16",
+    "status": "Filed"
+  },
+  {
+    "cin": "U67652GJ2020PTC100010",
+    "year": "FY2023",
+    "total_income": 84156898.75,
+    "total_deductions": 53273000.83,
+    "taxable_income": 18492647.91,
+    "tax_paid": 4552239.5,
+    "filing_date": "4023-09-29",
+    "status": "Filed"
+  },
+  {
+    "cin": "U67652GJ2020PTC100010",
+    "year": "FY2024",
+    "total_income": 417251942.36,
+    "total_deductions": 316005278.17,
+    "taxable_income": 99255876.75,
+    "tax_paid": 28579901.95,
+    "filing_date": "4024-09-17",
+    "status": "Filed"
+  },
+  {
+    "cin": "U24860MH2015PTC100011",
+    "year": "FY2022",
+    "total_income": 374833108.79,
+    "total_deductions": 241342846.64,
+    "taxable_income": 62373557.21,
+    "tax_paid": 25269074.98,
+    "filing_date": "4022-09-15",
+    "status": "Filed"
+  },
+  {
+    "cin": "U24860MH2015PTC100011",
+    "year": "FY2023",
+    "total_income": 271852600.62,
+    "total_deductions": 210375319.2,
+    "taxable_income": 41171352.47,
+    "tax_paid": 15233378.71,
+    "filing_date": "4023-09-28",
+    "status": "Filed"
+  },
+  {
+    "cin": "U24860MH2015PTC100011",
+    "year": "FY2024",
+    "total_income": 299804570.5,
+    "total_deductions": 225726274.21,
+    "taxable_income": 77115526.85,
+    "tax_paid": 14669422.78,
+    "filing_date": "4024-09-18",
+    "status": "Filed"
+  },
+  {
+    "cin": "U16130GJ2015PTC100012",
+    "year": "FY2022",
+    "total_income": 127089000.58,
+    "total_deductions": 81473288.76,
+    "taxable_income": 34144615.34,
+    "tax_paid": 6405236.63,
+    "filing_date": "4022-09-26",
+    "status": "Filed"
+  },
+  {
+    "cin": "U16130GJ2015PTC100012",
+    "year": "FY2023",
+    "total_income": 189803987.71,
+    "total_deductions": 148592500.52,
+    "taxable_income": 30766835.1,
+    "tax_paid": 8914883.8,
+    "filing_date": "4023-09-28",
+    "status": "Filed"
+  },
+  {
+    "cin": "U16130GJ2015PTC100012",
+    "year": "FY2024",
+    "total_income": 323748130.86,
+    "total_deductions": 226163069.5,
+    "taxable_income": 96137735.35,
+    "tax_paid": 22647141.01,
+    "filing_date": "4024-09-24",
+    "status": "Filed"
+  },
+  {
+    "cin": "U80951GJ2020PTC100013",
+    "year": "FY2022",
+    "total_income": 417083910.77,
+    "total_deductions": 275079082.41,
+    "taxable_income": 71005537.79,
+    "tax_paid": 29788082.27,
+    "filing_date": "4022-09-19",
+    "status": "Filed"
+  },
+  {
+    "cin": "U80951GJ2020PTC100013",
+    "year": "FY2023",
+    "total_income": 454478666.85,
+    "total_deductions": 299135935.05,
+    "taxable_income": 73213608.66,
+    "tax_paid": 29443361.19,
+    "filing_date": "4023-09-19",
+    "status": "Filed"
+  },
+  {
+    "cin": "U80951GJ2020PTC100013",
+    "year": "FY2024",
+    "total_income": 93982905.14,
+    "total_deductions": 70611613.39,
+    "taxable_income": 20366831.08,
+    "tax_paid": 5902284.54,
+    "filing_date": "4024-09-18",
+    "status": "Filed"
+  },
+  {
+    "cin": "U71843GJ2021PTC100014",
+    "year": "FY2022",
+    "total_income": 190749430.42,
+    "total_deductions": 114701528.82,
+    "taxable_income": 41850524.89,
+    "tax_paid": 10613009.47,
+    "filing_date": "4022-09-15",
+    "status": "Filed"
+  },
+  {
+    "cin": "U71843GJ2021PTC100014",
+    "year": "FY2023",
+    "total_income": 253929500.92,
+    "total_deductions": 158800801.55,
+    "taxable_income": 43777763.36,
+    "tax_paid": 16295540.25,
+    "filing_date": "4023-09-17",
+    "status": "Filed"
+  },
+  {
+    "cin": "U71843GJ2021PTC100014",
+    "year": "FY2024",
+    "total_income": 397527743.73,
+    "total_deductions": 251871506.8,
+    "taxable_income": 105057479.1,
+    "tax_paid": 26362495.68,
+    "filing_date": "4024-09-30",
+    "status": "Filed"
+  }
+]

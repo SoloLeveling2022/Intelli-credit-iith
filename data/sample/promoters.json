@@ -1,0 +1,170 @@
+[
+  {
+    "pan": "WGTUK1000S",
+    "name": "Rajesh Kumar",
+    "cin": "U79547TN2022PTC100000",
+    "shareholding": 57.08,
+    "designation": "Managing Director"
+  },
+  {
+    "pan": "XNYUR1001W",
+    "name": "Priya Sharma",
+    "cin": "U79547TN2022PTC100000",
+    "shareholding": 16.77,
+    "designation": "Director"
+  },
+  {
+    "pan": "FYKBF1002T",
+    "name": "Amit Patel",
+    "cin": "U79547TN2022PTC100000",
+    "shareholding": 21.08,
+    "designation": "Director"
+  },
+  {
+    "pan": "PZBPI1010U",
+    "name": "Sunita Reddy",
+    "cin": "U43448GJ2015PTC100001",
+    "shareholding": 20.43,
+    "designation": "Managing Director"
+  },
+  {
+    "pan": "CHXMB1020C",
+    "name": "Suresh Rao",
+    "cin": "U18138MH2022PTC100002",
+    "shareholding": 40.39,
+    "designation": "Managing Director"
+  },
+  {
+    "pan": "MWVWB1030Z",
+    "name": "Deepa Gupta",
+    "cin": "U20837KA2023PTC100003",
+    "shareholding": 46.3,
+    "designation": "Managing Director"
+  },
+  {
+    "pan": "XBLDA1031H",
+    "name": "Manoj Agarwal",
+    "cin": "U20837KA2023PTC100003",
+    "shareholding": 25.45,
+    "designation": "Director"
+  },
+  {
+    "pan": "XSOPW1040D",
+    "name": "Ramesh Nair",
+    "cin": "U83271MH2018PTC100004",
+    "shareholding": 57.59,
+    "designation": "Managing Director"
+  },
+  {
+    "pan": "YNMAS1050F",
+    "name": "Rajesh Kumar",
+    "cin": "U39646MH2018PTC100005",
+    "shareholding": 26.81,
+    "designation": "Managing Director"
+  },
+  {
+    "pan": "YIPIS1051B",
+    "name": "Priya Sharma",
+    "cin": "U39646MH2018PTC100005",
+    "shareholding": 10.14,
+    "designation": "Director"
+  },
+  {
+    "pan": "NFSST1060A",
+    "name": "Sunita Reddy",
+    "cin": "U38493GJ2020PTC100006",
+    "shareholding": 51.06,
+    "designation": "Managing Director"
+  },
+  {
+    "pan": "CARQB1070A",
+    "name": "Suresh Rao",
+    "cin": "U54336KA2022PTC100007",
+    "shareholding": 34.27,
+    "designation": "Managing Director"
+  },
+  {
+    "pan": "WGMWW1080W",
+    "name": "Deepa Gupta",
+    "cin": "U30671DL2020PTC100008",
+    "shareholding": 57.41,
+    "designation": "Managing Director"
+  },
+  {
+    "pan": "PTBMZ1081N",
+    "name": "Manoj Agarwal",
+    "cin": "U30671DL2020PTC100008",
+    "shareholding": 14.08,
+    "designation": "Director"
+  },
+  {
+    "pan": "OSXQC1090N",
+    "name": "Ramesh Nair",
+    "cin": "U82055DL2015PTC100009",
+    "shareholding": 52.48,
+    "designation": "Managing Director"
+  },
+  {
+    "pan": "NERSP1091N",
+    "name": "Pooja Iyer",
+    "cin": "U82055DL2015PTC100009",
+    "shareholding": 12.01,
+    "designation": "Director"
+  },
+  {
+    "pan": "PBFFL1092Z",
+    "name": "Karthik Pillai",
+    "cin": "U82055DL2015PTC100009",
+    "shareholding": 10.21,
+    "designation": "Director"
+  },
+  {
+    "pan": "TEERR1100L",
+    "name": "Rajesh Kumar",
+    "cin": "U67652GJ2020PTC100010",
+    "shareholding": 28.6,
+    "designation": "Managing Director"
+  },
+  {
+    "pan": "NPWTN1110Z",
+    "name": "Sunita Reddy",
+    "cin": "U24860MH2015PTC100011",
+    "shareholding": 32.12,
+    "designation": "Managing Director"
+  },
+  {
+    "pan": "IWUPP1120F",
+    "name": "Suresh Rao",
+    "cin": "U16130GJ2015PTC100012",
+    "shareholding": 57.11,
+    "designation": "Managing Director"
+  },
+  {
+    "pan": "ZVKJT1130K",
+    "name": "Deepa Gupta",
+    "cin": "U80951GJ2020PTC100013",
+    "shareholding": 46.34,
+    "designation": "Managing Director"
+  },
+  {
+    "pan": "TGTYH1131G",
+    "name": "Manoj Agarwal",
+    "cin": "U80951GJ2020PTC100013",
+    "shareholding": 17.87,
+    "designation": "Director"
+  },
+  {
+    "pan": "RZPKW1140Z",
+    "name": "Ramesh Nair",
+    "cin": "U71843GJ2021PTC100014",
+    "shareholding": 23.51,
+    "designation": "Managing Director"
+  },
+  {
+    "pan": "ATARO1141K",
+    "name": "Pooja Iyer",
+    "cin": "U71843GJ2021PTC100014",
+    "shareholding": 21.28,
+    "designation": "Director"
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "cin": "U39646MH2018PTC100005",
+    "case_number": "CS/201/2024",
+    "court": "Karnataka High Court",
+    "case_type": "Recovery Suit",
+    "amount": 4521106.37,
+    "status": "Disposed",
+    "filing_date": "2020-02-01"
+  },
+  {
+    "cin": "U39646MH2018PTC100005",
+    "case_number": "CS/712/2021",
+    "court": "Karnataka High Court",
+    "case_type": "Contract Dispute",
+    "amount": 1879448.89,
+    "status": "Pending",
+    "filing_date": "2023-06-10"
+  },
+  {
+    "cin": "U38493GJ2020PTC100006",
+    "case_number": "CS/259/2021",
+    "court": "Karnataka High Court",
+    "case_type": "Tax Dispute",
+    "amount": 9565565.24,
+    "status": "Pending",
+    "filing_date": "2024-06-19"
+  },
+  {
+    "cin": "U16130GJ2015PTC100012",
+    "case_number": "CS/533/2023",
+    "court": "Karnataka High Court",
+    "case_type": "Civil Suit",
+    "amount": 2747538.61,
+    "status": "Disposed",
+    "filing_date": "2020-08-28"
+  }
+]
