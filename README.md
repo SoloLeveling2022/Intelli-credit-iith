@@ -10,7 +10,9 @@ Intelli-Credit is an intelligent credit appraisal engine using Neo4j Knowledge G
 
 ## Video Presentation
 
-[Watch the video](https://drive.google.com/file/d/1cSXTdYlhV6SeLbRbnMfHOqHaeGvPIsF9/view?usp=sharing)
+[Watch the video](https://drive.google.com/file/d/18rW-N_0_1vd0adb6GSKBgt6UhIyYUyD-/view)
+
+## Architecture [Architecture](https://github.com/SoloLeveling2022/Intelli-credit-iith/blob/main/public/Architecture.png)
 
 ## Test Credentials
 
